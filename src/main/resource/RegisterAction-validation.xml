@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE validation PUBLIC
+        "-//Apache Struts //XWork Validation  1.0.3//EN"
+        "http://www.opensymphony.com/xwork/xwork-validator-1.0.3.dtd">
+<validators >
+<field name="user.name">
+    <field-validator type="requiredstring">
+        <param name="trim">true</param>
+        
+        <message>名字是必填选项</message>
+    </field-validator>
+    <field-validator type="regex">
+        <param name="expression"><![CDATA[(\w{4,32})]]></param>
+        <message>姓名必须是4到32位</message>
+    </field-validator>
+</field>
+    <field name="user.password">
+        <field-validator type="requiredstring">
+            <param name="trim">true</param>
+            <message>密码必填</message>
+        </field-validator>
+        <field-validator type="regex">
+            <param name="expression"><![CDATA[(\w{4,32})]]></param>
+            <message>密码必须是4到32位</message>
+        </field-validator>
+    </field>
+    <field name="user.age">
+        <field-validator type="int">
+            <param name="min">1</param>
+            <param name="max">120</param>
+            <message>年龄必须在1到120之间</message>
+        </field-validator>
+    </field>
+    <field name="user.birthday">
+        <field-validator type="date">
+            <param name="min">1900-01-01</param>
+            <param name="max">2019-12-31</param>
+            <message>生日必须在范围之内</message>
+        </field-validator>
+    </field>
+</validators>

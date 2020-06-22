@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+    <constant name="struts.enable.DynamicMethodInvocation" value="false"></constant>
+    <constant name="struts.devMode" value="true"></constant>
+
+<package name="StuutsDemo" extends="struts-default">
+    <action name="login" class="com.iotek.struts.LoginAction">
+<!--    <result name="input" >/login.jsp</result>-->
+    <result name="error" >/login.jsp</result>
+    <result name="success" >/welcome.jsp</result>
+</action>
+    <action  name="*">
+        <result>/WEB-INF/content/{1}.jsp</result>
+    </action></package>
+    <package name="fileLoadTest" extends="struts-default">
+
+        <!--配置处理文件上传的Action-->
+        <action name="uploadfile" class="com.iotek.struts.UploadAction">
+            <!--配置fileUpload的拦截器-->
+            <interceptor-ref name="fileUpload">
+                <!--配置允许上传的文件类型-->
+                <param name="allowedTypes">image/bmp,image/png,image/gif</param>
+                <!--配置允许上传的文件大小-->
+                <param name="maximumSize">2000000</param>
+            </interceptor-ref>
+            <!--配置系统默认的拦截器-->
+            <interceptor-ref name="defaultStack"/>
+            <!--动态设置Action的属性值-->
+            <param name="savePath">/fileup</param>
+            <result name="input">/upload.jsp</result>
+            <result>/WEB-INF/content/uploadOk.jsp</result>
+        </action>
+        <action name="downloadfile" class="com.iotek.struts.FileDownloadAction">
+            <!--配置结果类型为stream的结果-->
+            <result name="success" type="stream">
+                <!--指定下载文件的文件类型-->
+                <param name="contentType">${contentType}</param>
+                <!--指定由getTargetFile()方法返回被下载文件的InputStream-->
+                <param name="inputName">targetFile</param>
+                <!--指定下载文件的文件名-->
+                <param name="contentDisposition">filename="${downFileName}"</param>
+                <!--指定下载文件的缓冲大小-->
+                <param name="bufferSize">4096</param>
+            </result>
+        </action>
+        <action name="*">
+            <result>/WEB-INF/content/{1}.jsp</result>
+        </action>
+    </package>
+    <package name="com.iotek.struts" extends="struts-default">
+        <!--这里的name自定义、尽量与Action中的name相同，method定位到所处action中的class的具体方法，result的name为return 后返回的方法名称-->
+        <action name="login" class="com.iotek.pojo.LoginAction">
+            <result name="input">login.jsp</result>
+            <result name="error">login.jsp</result>
+            <result name="success">helloword.jsp</result>
+        </action>
+    </package>
+</struts>
